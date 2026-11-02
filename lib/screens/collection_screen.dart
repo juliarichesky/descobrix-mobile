@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/local_collection_store.dart';
 import '../models/discovery.dart';
 import '../theme/app_colors.dart';
+import 'item_detail_screen.dart';
 import 'scanner_screen.dart';
 
 class CollectionScreen extends StatefulWidget {
@@ -84,6 +85,13 @@ class _CollectionScreenState extends State<CollectionScreen> {
 
   void _showDiscovery(Discovery discovery) {
     setState(() => _selectedId = discovery.id);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ItemDetailScreen(discovery: discovery),
+      ),
+    );
+    return;
+    /*
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
@@ -99,6 +107,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
         ],
       ),
     );
+    */
   }
 
   void _showLockedMessage() {
