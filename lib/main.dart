@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),*/
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SplashScreen(),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
-enum AppButtonVariant { primary, secondary, outline }
+enum AppButtonVariant { primary, secondary, outline, navy }
 
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -34,6 +34,15 @@ class AppButton extends StatelessWidget {
       ),
       AppButtonVariant.outline => OutlinedButton(
         onPressed: onPressed,
+        child: _content,
+      ),
+      AppButtonVariant.navy => ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.navy,
+          foregroundColor: AppColors.surface,
+          shadowColor: Colors.transparent,
+        ),
         child: _content,
       ),
     };
