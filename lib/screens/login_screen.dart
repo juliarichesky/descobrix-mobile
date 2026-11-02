@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../data/local_account_store.dart';
 import 'home_screen.dart';
+import 'splash_screen.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
 
@@ -66,145 +67,164 @@ class _LoginScreenState extends State<LoginScreen> {
       ..showSnackBar(SnackBar(content: Text(message)));
   }
 
+  void _returnToSplash() {
+    final navigator = Navigator.of(context);
+    if (navigator.canPop()) {
+      navigator.pop();
+      return;
+    }
+    navigator.pushReplacement(
+      MaterialPageRoute<void>(builder: (_) => const SplashScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          tooltip: 'Voltar',
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-          onPressed: () => Navigator.of(context).pop(),
+    return PopScope(
+      canPop: Navigator.of(context).canPop(),
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) _returnToSplash();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          leading: IconButton(
+            tooltip: 'Voltar',
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+            onPressed: _returnToSplash,
+          ),
         ),
-      ),
-      body: SafeArea(
-        top: false,
-        child: Form(
-          key: _formKey,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.fromLTRB(24, 4, 24, 32),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight - 36,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(
-                        height: 66,
-                        child: CustomPaint(painter: _LoginAtomPainter()),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Bem-vindo de volta!',
-                        textAlign: TextAlign.center,
-                        style: textTheme.headlineLarge?.copyWith(
-                          fontSize: 28,
-                          letterSpacing: -0.6,
+        body: SafeArea(
+          top: false,
+          child: Form(
+            key: _formKey,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: const EdgeInsets.fromLTRB(24, 4, 24, 32),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 36,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 66,
+                          child: CustomPaint(painter: _LoginAtomPainter()),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Continue sua jornada de descobertas.',
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      _LoginField(
-                        key: const Key('login-email-field'),
-                        controller: _emailController,
-                        label: 'E-mail',
-                        hint: 'seuemail@exemplo.com',
-                        icon: Icons.mail_outline_rounded,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        validator: _emailValidator,
-                      ),
-                      const SizedBox(height: 14),
-                      _LoginField(
-                        key: const Key('login-password-field'),
-                        controller: _passwordController,
-                        label: 'Senha',
-                        hint: 'Digite sua senha',
-                        icon: Icons.lock_outline_rounded,
-                        obscureText: _obscurePassword,
-                        textInputAction: TextInputAction.done,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Informe sua senha';
-                          }
-                          return null;
-                        },
-                        suffixIcon: IconButton(
-                          tooltip: _obscurePassword
-                              ? 'Mostrar senha'
-                              : 'Ocultar senha',
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
+                        const SizedBox(height: 16),
+                        Text(
+                          'Bem-vindo de volta!',
+                          textAlign: TextAlign.center,
+                          style: textTheme.headlineLarge?.copyWith(
+                            fontSize: 28,
+                            letterSpacing: -0.6,
                           ),
-                          onPressed: () {
-                            setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            );
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Continue sua jornada de descobertas.',
+                          textAlign: TextAlign.center,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        _LoginField(
+                          key: const Key('login-email-field'),
+                          controller: _emailController,
+                          label: 'E-mail',
+                          hint: 'seuemail@exemplo.com',
+                          icon: Icons.mail_outline_rounded,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          validator: _emailValidator,
+                        ),
+                        const SizedBox(height: 14),
+                        _LoginField(
+                          key: const Key('login-password-field'),
+                          controller: _passwordController,
+                          label: 'Senha',
+                          hint: 'Digite sua senha',
+                          icon: Icons.lock_outline_rounded,
+                          obscureText: _obscurePassword,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Informe sua senha';
+                            }
+                            return null;
                           },
-                        ),
-                        onFieldSubmitted: (_) => _submit(),
-                      ),
-                      const SizedBox(height: 26),
-                      AppButton(
-                        label: 'Entrar',
-                        onPressed: _isSubmitting ? null : _submit,
-                      ),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          style: TextButton.styleFrom(
-                            foregroundColor: AppColors.navy,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                          suffixIcon: IconButton(
+                            tooltip: _obscurePassword
+                                ? 'Mostrar senha'
+                                : 'Ocultar senha',
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                            ),
+                            onPressed: () {
+                              setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              );
+                            },
                           ),
-                          child: RichText(
-                            text: TextSpan(
-                              style: textTheme.bodyMedium?.copyWith(
-                                color: AppColors.textMuted,
+                          onFieldSubmitted: (_) => _submit(),
+                        ),
+                        const SizedBox(height: 26),
+                        AppButton(
+                          label: 'Entrar',
+                          onPressed: _isSubmitting ? null : _submit,
+                        ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.navy,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
                               ),
-                              children: [
-                                const TextSpan(
-                                  text: 'Ainda não tem uma conta? ',
+                            ),
+                            child: RichText(
+                              text: TextSpan(
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.textMuted,
                                 ),
-                                TextSpan(
-                                  text: 'Criar conta',
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.pink,
-                                    fontWeight: FontWeight.w800,
+                                children: [
+                                  const TextSpan(
+                                    text: 'Ainda não tem uma conta? ',
                                   ),
-                                ),
-                              ],
+                                  TextSpan(
+                                    text: 'Criar conta',
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.pink,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 18),
-                      Text(
-                        'Acesso demonstrativo local',
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodySmall,
-                      ),
-                    ],
+                        const SizedBox(height: 18),
+                        Text(
+                          'Acesso demonstrativo local',
+                          textAlign: TextAlign.center,
+                          style: textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
