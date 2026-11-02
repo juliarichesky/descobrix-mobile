@@ -82,6 +82,7 @@ void main() {
     await tester.tap(find.text('Entrar'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Login realizado com sucesso!'), findsOneWidget);
+    expect(find.text('Olá, Rhayssa!'), findsOneWidget);
+    expect(find.text('Missão diária'), findsOneWidget);
   });
 }

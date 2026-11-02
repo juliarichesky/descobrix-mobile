@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../data/local_account_store.dart';
+import 'home_screen.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
 
@@ -34,11 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
     setState(() => _isSubmitting = true);
-    print('TESTE 1: antes de carregar a conta');
-
-final account = await LocalAccountStore.loadAccount();
-
-print('TESTE 2: conta carregada');
+    final account = await LocalAccountStore.loadAccount();
 
     if (!mounted) return;
     setState(() => _isSubmitting = false);
@@ -55,7 +52,12 @@ print('TESTE 2: conta carregada');
       return;
     }
 
-    _showMessage('Login realizado com sucesso!');
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(
+        builder: (_) => const HomeScreen(showLoginSuccess: true),
+      ),
+      (route) => false,
+    );
   }
 
   void _showMessage(String message) {
