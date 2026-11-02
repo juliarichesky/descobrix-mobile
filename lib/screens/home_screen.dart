@@ -4,6 +4,7 @@ import '../data/local_account_store.dart';
 import '../models/local_account.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
+import 'scanner_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.showLoginSuccess = false});
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onNotifications: _showInDevelopment,
                   ),
                   const SizedBox(height: 20),
-                  _DiscoveryBanner(onExplore: _showInDevelopment),
+                  _DiscoveryBanner(onExplore: _openScanner),
                   const SizedBox(height: 12),
                   _QuickCards(onTap: _showInDevelopment),
                   const SizedBox(height: 20),
@@ -80,6 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: _BottomNavigation(
         selectedIndex: _selectedIndex,
         onItemSelected: (index) {
+          if (index == 2) {
+            _openScanner();
+            return;
+          }
           setState(() => _selectedIndex = index);
           if (index != 0) _showInDevelopment();
         },
@@ -91,6 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final trimmedName = name.trim();
     if (trimmedName.isEmpty) return 'Explorador';
     return trimmedName.split(RegExp(r'\s+')).first;
+  }
+
+  void _openScanner() {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const ScannerScreen()));
   }
 }
 
