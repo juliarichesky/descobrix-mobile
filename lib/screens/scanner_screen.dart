@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 
+import '../models/discovery.dart';
 import '../theme/app_colors.dart';
+import 'discovery_result_screen.dart';
 
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
@@ -137,19 +139,10 @@ class _ScannerScreenState extends State<ScannerScreen>
     try {
       await controller.takePicture();
       if (!mounted) return;
-      await showDialog<void>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Imagem capturada'),
-          content: const Text(
-            'O reconhecimento educativo será simulado nesta etapa.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Entendi'),
-            ),
-          ],
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) =>
+              const DiscoveryResultScreen(discovery: Discovery.notebook),
         ),
       );
     } on CameraException {
