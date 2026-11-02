@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/local_account_store.dart';
+import '../data/local_collection_store.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
 import 'collection_screen.dart';
@@ -18,11 +19,17 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String _userName = 'Explorador';
+  LocalProgress _progress = const LocalProgress(
+    totalXp: 0,
+    discoveredIds: <String>{},
+  );
 
   @override
   void initState() {
     super.initState();
     _loadAccount();
+    _loadProgress();
+    LocalCollectionStore.progressVersion.addListener(_onProgressChanged);
   }
 
   Future<void> _loadAccount() async {
@@ -31,6 +38,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final name = account.name.trim();
     if (name.isEmpty) return;
     setState(() => _userName = name.split(RegExp(r'\s+')).first);
+  }
+
+  Future<void> _loadProgress() async {
+    final progress = await LocalCollectionStore.loadProgress();
+    if (!mounted) return;
+    setState(() => _progress = progress);
+  }
+
+  void _onProgressChanged() {
+    _loadProgress();
+  }
+
+  @override
+  void dispose() {
+    LocalCollectionStore.progressVersion.removeListener(_onProgressChanged);
+    super.dispose();
   }
 
   void _openRanking() {
@@ -171,9 +194,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _buildProfileHeader(textTheme),
+              _buildProfileHeader(textTheme, _progress),
               const SizedBox(height: 18),
               _buildStatsCard(textTheme),
+              const SizedBox(height: 5),
+              Text(
+                'Pontos e ranking s\u00E3o demonstrativos nesta etapa.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.textMuted, fontSize: 10),
+              ),
               const SizedBox(height: 16),
               _buildOptions(textTheme),
             ],
@@ -187,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildProfileHeader(TextTheme textTheme) {
+  Widget _buildProfileHeader(TextTheme textTheme, LocalProgress progress) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -224,25 +253,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: textTheme.headlineMedium?.copyWith(fontSize: 19),
               ),
               const SizedBox(height: 4),
-              Text('N\u00EDvel 4', style: textTheme.bodyMedium),
+              Text(
+                'N\u00EDvel ' + progress.level.toString(),
+                style: textTheme.bodyMedium,
+              ),
               const SizedBox(height: 9),
               Row(
                 children: <Widget>[
                   Expanded(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: const LinearProgressIndicator(
-                        value: 0.64,
+                      child: LinearProgressIndicator(
+                        value: progress.levelProgress,
                         minHeight: 7,
                         backgroundColor: AppColors.pinkLight,
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.pink,
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text('320 / 500 XP', style: textTheme.bodySmall),
+                  Text(
+                    progress.xpInCurrentLevel.toString() +
+                        ' / ' +
+                        LocalCollectionStore.xpPerLevel.toString() +
+                        ' XP',
+                    style: textTheme.bodySmall,
+                  ),
                 ],
               ),
             ],

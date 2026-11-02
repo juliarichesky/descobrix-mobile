@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/local_account_store.dart';
+import '../data/local_collection_store.dart';
 import '../models/local_account.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
@@ -20,12 +21,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   LocalAccount? _account;
+  LocalProgress _progress = const LocalProgress(
+    totalXp: 0,
+    discoveredIds: <String>{},
+  );
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _loadAccount();
+    _loadProgress();
+    LocalCollectionStore.progressVersion.addListener(_onProgressChanged);
     if (widget.showLoginSuccess) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
@@ -40,6 +47,22 @@ class _HomeScreenState extends State<HomeScreen> {
     final account = await LocalAccountStore.loadAccount();
     if (!mounted) return;
     setState(() => _account = account);
+  }
+
+  Future<void> _loadProgress() async {
+    final progress = await LocalCollectionStore.loadProgress();
+    if (!mounted) return;
+    setState(() => _progress = progress);
+  }
+
+  void _onProgressChanged() {
+    _loadProgress();
+  }
+
+  @override
+  void dispose() {
+    LocalCollectionStore.progressVersion.removeListener(_onProgressChanged);
+    super.dispose();
   }
 
   void _showInDevelopment() {
@@ -66,12 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   _Header(
                     firstName: firstName,
                     textTheme: textTheme,
+                    progress: _progress,
                     onNotifications: _showInDevelopment,
                   ),
                   const SizedBox(height: 20),
                   _DiscoveryBanner(onExplore: _openScanner),
                   const SizedBox(height: 12),
                   _QuickCards(
+                    collectionCount: _progress.discoveredIds.length,
                     onCollection: _openCollection,
                     onDuels: _openDuels,
                     onOther: _showInDevelopment,
@@ -143,11 +168,13 @@ class _Header extends StatelessWidget {
   const _Header({
     required this.firstName,
     required this.textTheme,
+    required this.progress,
     required this.onNotifications,
   });
 
   final String firstName;
   final TextTheme textTheme;
+  final LocalProgress progress;
   final VoidCallback onNotifications;
 
   @override
@@ -166,23 +193,34 @@ class _Header extends StatelessWidget {
                 style: textTheme.titleMedium?.copyWith(fontSize: 14),
               ),
               const SizedBox(height: 4),
-              Text('Nível 4', style: textTheme.bodySmall),
+              Text(
+                'N\u00EDvel ' + progress.level.toString(),
+                style: textTheme.bodySmall,
+              ),
               const SizedBox(height: 7),
               Row(
                 children: [
                   Expanded(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: const LinearProgressIndicator(
-                        value: 0.64,
+                      child: LinearProgressIndicator(
+                        value: progress.levelProgress,
                         minHeight: 6,
                         backgroundColor: AppColors.pinkLight,
-                        valueColor: AlwaysStoppedAnimation(AppColors.pink),
+                        valueColor: const AlwaysStoppedAnimation(
+                          AppColors.pink,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text('320 / 500 XP', style: textTheme.bodySmall),
+                  Text(
+                    progress.xpInCurrentLevel.toString() +
+                        ' / ' +
+                        LocalCollectionStore.xpPerLevel.toString() +
+                        ' XP',
+                    style: textTheme.bodySmall,
+                  ),
                 ],
               ),
             ],
@@ -348,11 +386,13 @@ class _CameraIllustration extends StatelessWidget {
 
 class _QuickCards extends StatelessWidget {
   const _QuickCards({
+    required this.collectionCount,
     required this.onCollection,
     required this.onDuels,
     required this.onOther,
   });
 
+  final int collectionCount;
   final VoidCallback onCollection;
   final VoidCallback onDuels;
   final VoidCallback onOther;
@@ -366,7 +406,7 @@ class _QuickCards extends StatelessWidget {
           Expanded(
             child: _QuickCard(
               title: 'Minha coleção',
-              detail: '12/50',
+              detail: collectionCount.toString() + '/50',
               icon: Icons.menu_book_rounded,
               iconColor: AppColors.blue,
               onTap: onCollection,

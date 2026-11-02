@@ -44,7 +44,8 @@ class _CollectionScreenState extends State<CollectionScreen> {
 
   Future<void> _loadCollection() async {
     try {
-      final ids = await LocalCollectionStore.loadIds();
+      final progress = await LocalCollectionStore.loadProgress();
+      final ids = progress.discoveredIds;
       if (!mounted) return;
       setState(() {
         _unlockedIds = ids;

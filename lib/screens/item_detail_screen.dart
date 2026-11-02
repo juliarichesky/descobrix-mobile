@@ -61,7 +61,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
 
   Future<void> _loadCollectionState() async {
     try {
-      final isAdded = await LocalCollectionStore.contains(widget.discovery.id);
+      final progress = await LocalCollectionStore.loadProgress();
+      final isAdded = progress.discoveredIds.contains(widget.discovery.id);
       if (!mounted) return;
       setState(() {
         _isAdded = isAdded;
@@ -78,14 +79,19 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
     if (_isAdded || _isSaving) return;
     setState(() => _isSaving = true);
     try {
-      final added = await LocalCollectionStore.addId(widget.discovery.id);
+      final result = await LocalCollectionStore.addDiscovery(widget.discovery);
       if (!mounted) return;
       setState(() {
         _isAdded = true;
         _isSaving = false;
       });
       _showMessage(
-        added ? 'Adicionado à coleção!' : 'Já adicionado à coleção.',
+        result.added
+            ? widget.discovery.name +
+                  ' adicionado! +' +
+                  result.xpAwarded.toString() +
+                  ' XP'
+            : 'J\\u00E1 descoberto. Nenhum XP adicional foi concedido.',
       );
     } catch (_) {
       if (!mounted) return;
