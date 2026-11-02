@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
+import 'register_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -90,7 +91,14 @@ class SplashScreen extends StatelessWidget {
                                   child: AppButton(
                                     label: 'Criar conta',
                                     variant: AppButtonVariant.outline,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute<void>(
+                                          builder: (_) =>
+                                              const RegisterScreen(),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
