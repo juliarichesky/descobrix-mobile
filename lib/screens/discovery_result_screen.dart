@@ -63,7 +63,7 @@ class _DiscoveryResultScreenState extends State<DiscoveryResultScreen> {
                   ' adicionado! +' +
                   result.xpAwarded.toString() +
                   ' XP'
-            : 'J\\u00E1 descoberto. Nenhum XP adicional foi concedido.',
+            : 'J\u00E1 descoberto. Nenhum XP adicional foi concedido.',
       );
     } catch (_) {
       if (!mounted) return;
@@ -143,6 +143,31 @@ class _DiscoveryResultScreenState extends State<DiscoveryResultScreen> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const AppCard(
+                padding: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                borderRadius: 16,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: AppColors.blueDeep,
+                      size: 19,
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Resultado demonstrativo: este objeto foi usado como exemplo nesta Sprint. A c\u00E2mera n\u00E3o identifica radioatividade.',
+                        style: TextStyle(
+                          color: AppColors.navySoft,
+                          fontSize: 11,
+                          height: 1.3,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 10),

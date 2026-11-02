@@ -213,55 +213,64 @@ class _PieceCard extends StatelessWidget {
     final foreground = piece.unlocked
         ? AppColors.blueDeep
         : AppColors.textDisabled;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 68,
-            decoration: BoxDecoration(
-              color: piece.unlocked
-                  ? AppColors.surface.withValues(alpha: 0.94)
-                  : AppColors.surfaceMuted.withValues(alpha: 0.84),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
+    return Semantics(
+      button: true,
+      label: piece.unlocked
+          ? '${piece.name}, desbloqueada'
+          : '${piece.name}, bloqueada',
+      hint: piece.unlocked
+          ? 'Toque para ver a explicação da peça'
+          : 'Toque para saber como desbloquear',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 68,
+              decoration: BoxDecoration(
                 color: piece.unlocked
-                    ? AppColors.blue.withValues(alpha: 0.25)
-                    : AppColors.border.withValues(alpha: 0.8),
-              ),
-              boxShadow: const <BoxShadow>[
-                BoxShadow(
-                  color: Color(0x0A0E2A4D),
-                  blurRadius: 7,
-                  offset: Offset(0, 2),
+                    ? AppColors.surface.withValues(alpha: 0.94)
+                    : AppColors.surfaceMuted.withValues(alpha: 0.84),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: piece.unlocked
+                      ? AppColors.blue.withValues(alpha: 0.25)
+                      : AppColors.border.withValues(alpha: 0.8),
                 ),
-              ],
-            ),
-            child: Center(
-              child: CustomPaint(
-                size: const Size(44, 44),
-                painter: _PieceIconPainter(
-                  kind: piece.kind,
-                  color: foreground,
-                  unlocked: piece.unlocked,
+                boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    color: Color(0x0A0E2A4D),
+                    blurRadius: 7,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: CustomPaint(
+                  size: const Size(44, 44),
+                  painter: _PieceIconPainter(
+                    kind: piece.kind,
+                    color: foreground,
+                    unlocked: piece.unlocked,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            piece.name,
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.bodySmall?.copyWith(
-              color: piece.unlocked ? AppColors.navy : AppColors.textMuted,
-              fontWeight: FontWeight.w700,
-              fontSize: 10,
+            const SizedBox(height: 5),
+            Text(
+              piece.name,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.bodySmall?.copyWith(
+                color: piece.unlocked ? AppColors.navy : AppColors.textMuted,
+                fontWeight: FontWeight.w700,
+                fontSize: 10,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

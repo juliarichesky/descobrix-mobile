@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/local_account_store.dart';
+import '../data/local_collection_store.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
 
@@ -44,11 +45,26 @@ class RankingScreen extends StatefulWidget {
 class _RankingScreenState extends State<RankingScreen> {
   int _selectedTab = 0;
   String _playerName = 'Voc\u00EA';
+  LocalProgress _progress = const LocalProgress(
+    totalXp: 0,
+    discoveredIds: <String>{},
+  );
 
   @override
   void initState() {
     super.initState();
     _loadPlayerName();
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    try {
+      final progress = await LocalCollectionStore.loadProgress();
+      if (!mounted) return;
+      setState(() => _progress = progress);
+    } catch (_) {
+      // O ranking continua demonstrativo quando a leitura local falha.
+    }
   }
 
   Future<void> _loadPlayerName() async {
@@ -137,27 +153,33 @@ class _RankingScreenState extends State<RankingScreen> {
     return entries;
   }
 
-  List<RankingAchievement> get _achievements => const <RankingAchievement>[
+  List<RankingAchievement> get _achievements => <RankingAchievement>[
     RankingAchievement(
       title: 'Primeira descoberta',
       condition: 'Descobrir 1 objeto',
       icon: Icons.star_rounded,
-      color: AppColors.yellow,
-      unlocked: true,
+      color: _progress.discoveredIds.isNotEmpty
+          ? AppColors.yellow
+          : AppColors.textDisabled,
+      unlocked: _progress.discoveredIds.isNotEmpty,
     ),
     RankingAchievement(
       title: 'Primeiro duelo',
       condition: 'Concluir 1 duelo',
-      icon: Icons.shield_rounded,
-      color: AppColors.blue,
-      unlocked: true,
+      icon: Icons.lock_rounded,
+      color: AppColors.textDisabled,
+      unlocked: false,
     ),
     RankingAchievement(
       title: 'Colecionador',
       condition: 'Descobrir 10 objetos',
-      icon: Icons.lock_rounded,
-      color: AppColors.textDisabled,
-      unlocked: false,
+      icon: _progress.discoveredIds.length >= 10
+          ? Icons.collections_bookmark_rounded
+          : Icons.lock_rounded,
+      color: _progress.discoveredIds.length >= 10
+          ? AppColors.blue
+          : AppColors.textDisabled,
+      unlocked: _progress.discoveredIds.length >= 10,
     ),
     RankingAchievement(
       title: 'Mestre do conhecimento',

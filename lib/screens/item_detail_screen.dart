@@ -91,7 +91,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                   ' adicionado! +' +
                   result.xpAwarded.toString() +
                   ' XP'
-            : 'J\\u00E1 descoberto. Nenhum XP adicional foi concedido.',
+            : 'J\u00E1 descoberto. Nenhum XP adicional foi concedido.',
       );
     } catch (_) {
       if (!mounted) return;
