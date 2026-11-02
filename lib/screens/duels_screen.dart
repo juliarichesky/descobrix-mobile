@@ -6,6 +6,7 @@ import '../widgets/app_card.dart';
 import 'collection_screen.dart';
 import 'friends_screen.dart';
 import 'ongoing_duels_screen.dart';
+import 'ranking_screen.dart';
 import 'scanner_screen.dart';
 
 class DuelsScreen extends StatelessWidget {
@@ -37,6 +38,11 @@ class DuelsScreen extends StatelessWidget {
     Navigator.of(
       context,
     ).push(MaterialPageRoute<void>(builder: (_) => const OngoingDuelsScreen()));
+  }
+
+  void _openRanking(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const RankingScreen()));
   }
 
   void _onNavigationSelected(BuildContext context, int index) {
@@ -181,7 +187,7 @@ class DuelsScreen extends StatelessWidget {
                   description: 'Veja quem está no topo das descobertas.',
                   buttonLabel: 'Ver ranking',
                   buttonVariant: AppButtonVariant.outline,
-                  onPressed: () => _showInDevelopment(context),
+                  onPressed: () => _openRanking(context),
                 ),
               ],
             ),
