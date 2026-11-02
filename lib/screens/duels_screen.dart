@@ -6,6 +6,7 @@ import '../widgets/app_card.dart';
 import 'collection_screen.dart';
 import 'friends_screen.dart';
 import 'ongoing_duels_screen.dart';
+import 'profile_screen.dart';
 import 'ranking_screen.dart';
 import 'scanner_screen.dart';
 
@@ -59,7 +60,9 @@ class DuelsScreen extends StatelessWidget {
       case 3:
         return;
       case 4:
-        _showInDevelopment(context);
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const ProfileScreen()));
         return;
     }
   }

@@ -6,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
 import 'collection_screen.dart';
 import 'duels_screen.dart';
+import 'profile_screen.dart';
 import 'scanner_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -99,6 +100,10 @@ class _HomeScreenState extends State<HomeScreen> {
             _openDuels();
             return;
           }
+          if (index == 4) {
+            _openProfile();
+            return;
+          }
           setState(() => _selectedIndex = index);
           if (index != 0) _showInDevelopment();
         },
@@ -126,6 +131,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void _openDuels() {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => const DuelsScreen()));
+  }
+
+  void _openProfile() {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const ProfileScreen()));
   }
 }
 

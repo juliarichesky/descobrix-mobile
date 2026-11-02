@@ -5,6 +5,7 @@ import '../models/discovery.dart';
 import '../theme/app_colors.dart';
 import 'duels_screen.dart';
 import 'item_detail_screen.dart';
+import 'profile_screen.dart';
 import 'scanner_screen.dart';
 
 class CollectionScreen extends StatefulWidget {
@@ -134,8 +135,10 @@ class _CollectionScreenState extends State<CollectionScreen> {
             .push(MaterialPageRoute<void>(builder: (_) => const DuelsScreen()));
         return;
       case 4:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Em desenvolvimento')));
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const ProfileScreen()));
+        return;
     }
   }
 
