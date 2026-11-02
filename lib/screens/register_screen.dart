@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../data/local_account_store.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
 
@@ -28,9 +29,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    await LocalAccountStore.saveAccount(
+      name: _nameController.text,
+      email: _emailController.text,
+    );
+    if (!mounted) return;
 
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()

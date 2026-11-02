@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
+import 'login_screen.dart';
 import 'register_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -76,7 +77,13 @@ class SplashScreen extends StatelessWidget {
                                 AppButton(
                                   label: 'Entrar',
                                   variant: AppButtonVariant.navy,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (_) => const LoginScreen(),
+                                      ),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(height: 12),
                                 DecoratedBox(
