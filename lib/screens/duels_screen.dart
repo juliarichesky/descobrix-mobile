@@ -5,6 +5,7 @@ import '../widgets/app_button.dart';
 import '../widgets/app_card.dart';
 import 'collection_screen.dart';
 import 'friends_screen.dart';
+import 'ongoing_duels_screen.dart';
 import 'scanner_screen.dart';
 
 class DuelsScreen extends StatelessWidget {
@@ -30,6 +31,12 @@ class DuelsScreen extends StatelessWidget {
   void _openFriends(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => const FriendsScreen()));
+  }
+
+  void _openOngoingDuels(BuildContext context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const OngoingDuelsScreen()));
   }
 
   void _onNavigationSelected(BuildContext context, int index) {
@@ -164,7 +171,7 @@ class DuelsScreen extends StatelessWidget {
                       'Retome uma disputa que ainda está em andamento.',
                   buttonLabel: 'Continuar',
                   buttonVariant: AppButtonVariant.secondary,
-                  onPressed: () => _showInDevelopment(context),
+                  onPressed: () => _openOngoingDuels(context),
                 ),
                 const SizedBox(height: 10),
                 _DuelActionCard(

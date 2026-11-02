@@ -35,12 +35,14 @@ class _DiscoveryResultScreenState extends State<DiscoveryResultScreen> {
         _isLoadingCollection = false;
       });
       if (isAdded) {
-        _showMessage('JÃ¡ adicionado Ã  coleÃ§Ã£o.');
+        _showMessage('J\u00E1 adicionado \u00E0 cole\u00E7\u00E3o.');
       }
     } catch (_) {
       if (!mounted) return;
       setState(() => _isLoadingCollection = false);
-      _showMessage('NÃ£o foi possÃ­vel consultar sua coleÃ§Ã£o.');
+      _showMessage(
+        'N\u00E3o foi poss\u00EDvel consultar sua cole\u00E7\u00E3o.',
+      );
     }
   }
 
@@ -55,12 +57,16 @@ class _DiscoveryResultScreenState extends State<DiscoveryResultScreen> {
         _isSaving = false;
       });
       _showMessage(
-        added ? 'Adicionado Ã  coleÃ§Ã£o!' : 'JÃ¡ adicionado Ã  coleÃ§Ã£o.',
+        added
+            ? 'Adicionado \u00E0 cole\u00E7\u00E3o!'
+            : 'J\u00E1 adicionado \u00E0 cole\u00E7\u00E3o.',
       );
     } catch (_) {
       if (!mounted) return;
       setState(() => _isSaving = false);
-      _showMessage('NÃ£o foi possÃ­vel salvar o item na coleÃ§Ã£o.');
+      _showMessage(
+        'N\u00E3o foi poss\u00EDvel salvar o item na cole\u00E7\u00E3o.',
+      );
     }
   }
 

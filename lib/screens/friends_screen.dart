@@ -58,7 +58,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Compartilhar link'),
         content: const Text(
-          'O convite por link Ã© demonstrativo nesta etapa. O compartilhamento real ainda nÃ£o estÃ¡ disponÃ­vel.',
+          'O convite por link \u00E9 demonstrativo nesta etapa. O compartilhamento real ainda n\u00E3o est\u00E1 dispon\u00EDvel.',
         ),
         actions: [
           TextButton(
@@ -105,7 +105,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       ..showSnackBar(
         SnackBar(
           content: Text(
-            'Convite para ${friend.name} simulado. O duelo serÃ¡ implementado na prÃ³xima etapa.',
+            'Convite para ${friend.name} simulado. O duelo ser\u00E1 implementado na pr\u00F3xima etapa.',
           ),
         ),
       );
