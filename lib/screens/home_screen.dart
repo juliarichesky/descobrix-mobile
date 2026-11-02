@@ -9,6 +9,7 @@ import 'collection_screen.dart';
 import 'duels_screen.dart';
 import 'profile_screen.dart';
 import 'scanner_screen.dart';
+import 'submarine_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.showLoginSuccess = false});
@@ -99,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     collectionCount: _progress.discoveredIds.length,
                     onCollection: _openCollection,
                     onDuels: _openDuels,
-                    onOther: _showInDevelopment,
+                    onOther: _openSubmarine,
                   ),
                   const SizedBox(height: 20),
                   _DailyMission(textTheme: textTheme),
@@ -161,6 +162,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void _openProfile() {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => const ProfileScreen()));
+  }
+
+  void _openSubmarine() {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const SubmarineScreen()));
   }
 }
 

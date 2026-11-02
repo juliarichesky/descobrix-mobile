@@ -9,6 +9,7 @@ import 'duels_screen.dart';
 import 'login_screen.dart';
 import 'ranking_screen.dart';
 import 'scanner_screen.dart';
+import 'submarine_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -307,9 +308,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             label: 'Pe\u00E7as do submarino',
             value: '3/6',
             textTheme: textTheme,
-            onTap: () => _showDialog(
-              title: 'Pe\u00E7as do submarino',
-              content: const Text('Esta tela est\u00E1 em desenvolvimento.'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const SubmarineScreen()),
             ),
           ),
         ],
