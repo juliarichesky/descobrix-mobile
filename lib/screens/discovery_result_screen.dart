@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/local_collection_store.dart';
 import '../models/discovery.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
@@ -15,21 +16,52 @@ class DiscoveryResultScreen extends StatefulWidget {
 }
 
 class _DiscoveryResultScreenState extends State<DiscoveryResultScreen> {
-  late bool _isAdded;
+  bool _isAdded = false;
+  bool _isLoadingCollection = true;
+  bool _isSaving = false;
 
   @override
   void initState() {
     super.initState();
-    _isAdded = DiscoverySession.contains(widget.discovery.id);
+    _loadCollectionState();
   }
 
-  void _addToCollection() {
-    if (_isAdded) return;
-    final added = DiscoverySession.add(widget.discovery.id);
-    if (!mounted) return;
-    setState(() => _isAdded = added || _isAdded);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Adicionado à coleção!')));
+  Future<void> _loadCollectionState() async {
+    try {
+      final isAdded = await LocalCollectionStore.contains(widget.discovery.id);
+      if (!mounted) return;
+      setState(() {
+        _isAdded = isAdded;
+        _isLoadingCollection = false;
+      });
+      if (isAdded) {
+        _showMessage('JÃ¡ adicionado Ã  coleÃ§Ã£o.');
+      }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoadingCollection = false);
+      _showMessage('NÃ£o foi possÃ­vel consultar sua coleÃ§Ã£o.');
+    }
+  }
+
+  Future<void> _saveToCollection() async {
+    if (_isAdded || _isSaving) return;
+    setState(() => _isSaving = true);
+    try {
+      final added = await LocalCollectionStore.addId(widget.discovery.id);
+      if (!mounted) return;
+      setState(() {
+        _isAdded = true;
+        _isSaving = false;
+      });
+      _showMessage(
+        added ? 'Adicionado Ã  coleÃ§Ã£o!' : 'JÃ¡ adicionado Ã  coleÃ§Ã£o.',
+      );
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isSaving = false);
+      _showMessage('NÃ£o foi possÃ­vel salvar o item na coleÃ§Ã£o.');
+    }
   }
 
   void _showMoreInformation() {
@@ -177,7 +209,9 @@ class _DiscoveryResultScreenState extends State<DiscoveryResultScreen> {
                     ? 'Adicionado à coleção'
                     : 'Adicionar à coleção',
                 variant: AppButtonVariant.navy,
-                onPressed: _isAdded ? null : _addToCollection,
+                onPressed: _isLoadingCollection || _isAdded || _isSaving
+                    ? null
+                    : _saveToCollection,
               ),
               const SizedBox(height: 10),
               AppButton(

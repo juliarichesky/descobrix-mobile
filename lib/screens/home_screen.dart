@@ -4,6 +4,7 @@ import '../data/local_account_store.dart';
 import '../models/local_account.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
+import 'collection_screen.dart';
 import 'scanner_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -68,7 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 20),
                   _DiscoveryBanner(onExplore: _openScanner),
                   const SizedBox(height: 12),
-                  _QuickCards(onTap: _showInDevelopment),
+                  _QuickCards(
+                    onCollection: _openCollection,
+                    onOther: _showInDevelopment,
+                  ),
                   const SizedBox(height: 20),
                   _DailyMission(textTheme: textTheme),
                   const SizedBox(height: 18),
@@ -81,6 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: _BottomNavigation(
         selectedIndex: _selectedIndex,
         onItemSelected: (index) {
+          if (index == 1) {
+            _openCollection();
+            return;
+          }
           if (index == 2) {
             _openScanner();
             return;
@@ -101,6 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _openScanner() {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => const ScannerScreen()));
+  }
+
+  void _openCollection() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const CollectionScreen()));
   }
 }
 
@@ -312,9 +326,10 @@ class _CameraIllustration extends StatelessWidget {
 }
 
 class _QuickCards extends StatelessWidget {
-  const _QuickCards({required this.onTap});
+  const _QuickCards({required this.onCollection, required this.onOther});
 
-  final VoidCallback onTap;
+  final VoidCallback onCollection;
+  final VoidCallback onOther;
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +343,7 @@ class _QuickCards extends StatelessWidget {
               detail: '12/50',
               icon: Icons.menu_book_rounded,
               iconColor: AppColors.blue,
-              onTap: onTap,
+              onTap: onCollection,
             ),
           ),
           const SizedBox(width: 8),
@@ -338,7 +353,7 @@ class _QuickCards extends StatelessWidget {
               detail: '',
               icon: Icons.emoji_events_rounded,
               iconColor: AppColors.orange,
-              onTap: onTap,
+              onTap: onOther,
             ),
           ),
           const SizedBox(width: 8),
@@ -348,7 +363,7 @@ class _QuickCards extends StatelessWidget {
               detail: '3/6 peças',
               icon: Icons.directions_boat_filled_rounded,
               iconColor: AppColors.blueDeep,
-              onTap: onTap,
+              onTap: onOther,
             ),
           ),
         ],
