@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/local_collection_store.dart';
 import '../models/discovery.dart';
 import '../theme/app_colors.dart';
+import 'duels_screen.dart';
 import 'item_detail_screen.dart';
 import 'scanner_screen.dart';
 
@@ -129,6 +130,9 @@ class _CollectionScreenState extends State<CollectionScreen> {
         ).push(MaterialPageRoute<void>(builder: (_) => const ScannerScreen()));
         return;
       case 3:
+        Navigator.of(context)
+            .push(MaterialPageRoute<void>(builder: (_) => const DuelsScreen()));
+        return;
       case 4:
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Em desenvolvimento')));

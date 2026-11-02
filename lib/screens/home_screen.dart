@@ -5,6 +5,7 @@ import '../models/local_account.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_card.dart';
 import 'collection_screen.dart';
+import 'duels_screen.dart';
 import 'scanner_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -71,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 12),
                   _QuickCards(
                     onCollection: _openCollection,
+                    onDuels: _openDuels,
                     onOther: _showInDevelopment,
                   ),
                   const SizedBox(height: 20),
@@ -91,6 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           if (index == 2) {
             _openScanner();
+            return;
+          }
+          if (index == 3) {
+            _openDuels();
             return;
           }
           setState(() => _selectedIndex = index);
@@ -115,6 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.of(
       context,
     ).push(MaterialPageRoute<void>(builder: (_) => const CollectionScreen()));
+  }
+
+  void _openDuels() {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const DuelsScreen()));
   }
 }
 
@@ -326,9 +337,14 @@ class _CameraIllustration extends StatelessWidget {
 }
 
 class _QuickCards extends StatelessWidget {
-  const _QuickCards({required this.onCollection, required this.onOther});
+  const _QuickCards({
+    required this.onCollection,
+    required this.onDuels,
+    required this.onOther,
+  });
 
   final VoidCallback onCollection;
+  final VoidCallback onDuels;
   final VoidCallback onOther;
 
   @override
@@ -353,7 +369,7 @@ class _QuickCards extends StatelessWidget {
               detail: '',
               icon: Icons.emoji_events_rounded,
               iconColor: AppColors.orange,
-              onTap: onOther,
+              onTap: onDuels,
             ),
           ),
           const SizedBox(width: 8),
