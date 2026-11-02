@@ -47,28 +47,28 @@ class Discovery {
 
   static const smokeDetector = Discovery(
     id: 'smoke-detector',
-    name: 'Detector de fuma\u00E7a',
+    name: 'Detector de fumaça',
     category: 'Tecnologia',
     rarity: 'Comum',
-    description: 'Dispositivo que identifica part\u00EDculas de fuma\u00E7a e ajuda a alertar sobre poss\u00EDveis inc\u00EAndios.',
+    description: 'Dispositivo que identifica partículas de fumaça e ajuda a alertar sobre possíveis incêndios.',
     xp: 60,
     illustrationAsset: 'smoke_detector',
   );
 
   static const ledLamp = Discovery(
     id: 'led-lamp',
-    name: 'L\u00E2mpada LED',
+    name: 'Lâmpada LED',
     category: 'Energia',
     rarity: 'Comum',
-    description: 'L\u00E2mpadas LED transformam energia el\u00E9trica em luz com baixo consumo de energia.',
+    description: 'Lâmpadas LED transformam energia elétrica em luz com baixo consumo de energia.',
     xp: 60,
     illustrationAsset: 'led_lamp',
   );
 
   static const ctScanner = Discovery(
     id: 'ct-scanner',
-    name: 'Tom\u00F3grafo',
-    category: 'Sa\u00FAde',
+    name: 'Tomógrafo',
+    category: 'Saúde',
     rarity: 'Raro',
     description: 'Equipamento que utiliza raios X para criar imagens detalhadas do interior do corpo.',
     xp: 160,
@@ -81,7 +81,7 @@ class Discovery {
     category: 'Energia',
     rarity: 'Incomum',
     description:
-        'Pain\u00E9is solares convertem a luz do Sol em energia el\u00E9trica.',
+        'Painéis solares convertem a luz do Sol em energia elétrica.',
     xp: 120,
     illustrationAsset: 'solar_panel',
   );
@@ -90,8 +90,8 @@ class Discovery {
     id: 'nuclear-generator',
     name: 'Gerador nuclear',
     category: 'Energia',
-    rarity: 'Lend\u00E1rio',
-    description: 'Geradores nucleares produzem energia a partir de rea\u00E7\u00F5es controladas no n\u00FAcleo at\u00F4mico.',
+    rarity: 'Lendário',
+    description: 'Geradores nucleares produzem energia a partir de reações controladas no núcleo atômico.',
     xp: 240,
     illustrationAsset: 'nuclear_generator',
   );

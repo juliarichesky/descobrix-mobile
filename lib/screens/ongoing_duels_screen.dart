@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'duel_game_screen.dart';
 import '../theme/app_colors.dart';
 
 class OngoingDuel {
@@ -49,16 +50,15 @@ class OngoingDuelsScreen extends StatelessWidget {
 
   final List<OngoingDuel> duels;
 
-  void _showContinueMessage(BuildContext context, OngoingDuel duel) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(
-            'A partida com ${duel.friendName} ser\u00E1 implementada na pr\u00F3xima etapa.',
-          ),
+  void _openDuel(BuildContext context, OngoingDuel duel) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (_) => DuelGameScreen(
+          opponentName: duel.friendName,
+          opponentLevel: duel.level,
         ),
-      );
+      ),
+    );
   }
 
   @override
@@ -112,7 +112,7 @@ class OngoingDuelsScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: _OngoingDuelCard(
                       duel: duel,
-                      onContinue: () => _showContinueMessage(context, duel),
+                      onContinue: () => _openDuel(context, duel),
                     ),
                   ),
             ],

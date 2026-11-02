@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'duel_game_screen.dart';
 import '../theme/app_colors.dart';
 import '../widgets/app_button.dart';
 
@@ -86,7 +87,14 @@ class _FriendsScreenState extends State<FriendsScreen> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
-              _showInviteConfirmation(friend);
+              Navigator.of(this.context).pushReplacement(
+                MaterialPageRoute<void>(
+                  builder: (_) => DuelGameScreen(
+                    opponentName: friend.name,
+                    opponentLevel: friend.level,
+                  ),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.pink,
@@ -97,18 +105,6 @@ class _FriendsScreenState extends State<FriendsScreen> {
         ],
       ),
     );
-  }
-
-  void _showInviteConfirmation(_Friend friend) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(
-            'Convite para ${friend.name} simulado. O duelo ser\u00E1 implementado na pr\u00F3xima etapa.',
-          ),
-        ),
-      );
   }
 
   @override
