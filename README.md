@@ -1,7 +1,7 @@
-# 🌊 Descobrix
-
 <div align="center">
-
+  
+# Descobrix
+  
 ### Explore o cotidiano. Descubra a ciência. Evolua seu conhecimento.
 
 **Um universo de descobertas na palma da sua mão!** 🔬
@@ -11,7 +11,9 @@
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Sprint%201-9CCFE8?style=for-the-badge)
 
-**Challenge FIAP 2026 | CTMSP — Centro Tecnológico da Marinha em São Paulo**
+**Challenge FIAP 2026 | CTMSP - Centro Tecnológico da Marinha em São Paulo**
+
+### [Acesso ao repositório](https://github.com/juliarichesky/descobrix-mobile)
 
 </div>
 
@@ -174,26 +176,6 @@ Para acessar:
 **Senha de demonstração:** `Descobrix@123`
 
 > ⚠️ A autenticação é exclusiva do protótipo acadêmico. A senha fixa não representa um mecanismo seguro de autenticação e deverá ser substituída antes de qualquer distribuição pública. A senha informada no cadastro não é persistida localmente.
-
----
-
-## 🔒 Compliance, segurança e privacidade
-
-O Descobrix foi desenvolvido considerando cuidados básicos de privacidade, segurança e experiência do usuário.
-
-Nesta Sprint, destacam-se:
-
-- Solicitação de permissão para utilização da câmera.
-- Tratamento de permissão negada ou câmera indisponível.
-- Validação dos campos de cadastro.
-- Armazenamento local demonstrativo.
-- Navegação protegida após o logout.
-- Ausência de chat livre e multiplayer real.
-- Separação entre funcionalidades implementadas e simuladas.
-
-**Importante:** o aplicativo não utiliza a câmera para medir radiação. O reconhecimento de objetos é demonstrativo e as informações apresentadas possuem finalidade educativa.
-
-A versão atual não deve ser considerada um produto pronto para distribuição pública ou plenamente conforme às exigências legais de proteção de dados. Controles adicionais serão planejados para as próximas etapas.
 
 ---
 
