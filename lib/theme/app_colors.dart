@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Cores base extraídas da linguagem visual da referência do Descobrix.
+/// cores base extraídas da linguagem visual da referência do Descobrix
 abstract final class AppColors {
   static const navy = Color(0xFF14294D);
   static const navySoft = Color(0xFF29446D);
